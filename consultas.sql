@@ -32,6 +32,19 @@ CREATE TABLE IF NOT EXISTS musicas (
     FOREIGN KEY (id_artista) REFERENCES artistas(id)
 );
 
+CREATE TABLE musicas_playlists (
+    id_playlist INT REFERENCES playlists(id),
+    id_musica INT REFERENCES musicas(id),
+    PRIMARY KEY (id_playlist, id_musica)
+);
+
+CREATE TABLE IF NOT EXISTS playlists (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    id_usuario INT REFERENCES usuarios(id)
+);
+
 -- Limpa tabelas para evitar duplicações (opcional, cuidado em produção)
 DELETE FROM musicas;
 DELETE FROM albuns;
