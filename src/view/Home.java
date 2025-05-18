@@ -1,81 +1,99 @@
 package view;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
+import controller.FuncaoMusica;
+import model.MusicaDAO;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class Home extends javax.swing.JFrame {
-
-    public Home() {
+public class Home extends JFrame {
+    
+    private FuncaoMusica funcaoMusica;
+    
+    public Home(String nomeUsuario) {
         initComponents();
+        
+        try {
+            funcaoMusica = new FuncaoMusica(new MusicaDAO());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao buscar.");
+        }
+
+        // Alteração das opções de seleção para pesquisa
+        ComboSelecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Nome", "Artista", "Gênero"}));
+        
+        // Evento de busca do botão
+        BotaoBuscar.addActionListener(evt -> buscarMusicas());
+        
         carregarMusicas();
+        
+        MensagemBoasVindas.setText("Bem-Vindo ao SpotiFEI, " + nomeUsuario + "!");
+        
+        
+        try {
+            tabelaMusicas.setModel(funcaoMusica.obterMusicas());
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Erro ao carregar músicas: " + e.getMessage());
+        }
     }
     
     private void carregarMusicas() {
-    try {
-        // 1. Conectar ao banco
-        String url = "jdbc:postgresql://localhost:5432/spotifei";
-        String user = "postgres"; // usuário
-        String password = "070588"; // senha
-        Connection conn = DriverManager.getConnection(url, user, password);
-
-        // 2. Consulta SQL
-        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.data_lancamento " +
-                     "FROM musicas " +
-                     "JOIN artistas ON musicas.id_artista = artistas.id " +
-                     "JOIN albuns ON musicas.id_album = albuns.id";
-
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-
-        // 3. Preencher a tabela
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Título");
-        model.addColumn("Artista");
-        model.addColumn("Álbum");
-        model.addColumn("Gênero");
-        model.addColumn("Duração");
-        model.addColumn("Lançamento");
-
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getString(1),
-                rs.getString(2),
-                rs.getString(3),
-                rs.getString(4),
-                rs.getTime(5).toString(),
-                rs.getDate(6).toString()
-            });
+        try {
+            DefaultTableModel model = funcaoMusica.obterMusicas();
+            tabelaMusicas.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar músicas: " + e.getMessage());
         }
-
-        tabelaMusicas.setModel(model);
-
-        conn.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Erro ao carregar músicas: " + e.getMessage());
     }
-}
+    
+    private void buscarMusicas() {
+        try {
+            String textoBusca = CampoInserir.getText().trim();
+            String criterio = (String) ComboSelecao.getSelectedItem();
 
+            DefaultTableModel model;
+
+            if (textoBusca.isEmpty()) {
+                model = funcaoMusica.obterMusicas();
+            } else {
+                switch (criterio) {
+                    case "Nome":
+                        model = funcaoMusica.buscarPorNome(textoBusca);
+                        break;
+                    case "Artista":
+                        model = funcaoMusica.buscarPorArtista(textoBusca);
+                        break;
+                    case "Gênero":
+                        model = funcaoMusica.buscarPorGenero(textoBusca);
+                        break;
+                    default:
+                        model = funcaoMusica.obterMusicas();
+                }
+            }
+            tabelaMusicas.setModel(model);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro na busca: " + e.getMessage());
+        }
+    } 
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        MensagemBoasVindas = new javax.swing.JLabel();
+        CampoInserir = new javax.swing.JTextField();
+        BotaoBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaMusicas = new javax.swing.JTable();
+        ComboSelecao = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setText("Bem-Vindo ao SpotiFEI!");
+        MensagemBoasVindas.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        MensagemBoasVindas.setText("Bem-Vindo ao SpotiFEI!");
 
-        jButton1.setText("Busca");
+        BotaoBuscar.setText("Busca");
 
         tabelaMusicas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,34 +108,40 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabelaMusicas);
 
+        ComboSelecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextField1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MensagemBoasVindas)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(CampoInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ComboSelecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BotaoBuscar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1)
+                .addComponent(MensagemBoasVindas)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(CampoInserir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotaoBuscar)
+                    .addComponent(ComboSelecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -126,19 +150,13 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Home().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton BotaoBuscar;
+    private javax.swing.JTextField CampoInserir;
+    private javax.swing.JComboBox<String> ComboSelecao;
+    private javax.swing.JLabel MensagemBoasVindas;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabelaMusicas;
     // End of variables declaration//GEN-END:variables
 }

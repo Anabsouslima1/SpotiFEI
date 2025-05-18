@@ -1,7 +1,7 @@
 package view;
 
 import model.UsuarioDAO;
-import java.sql.SQLException;
+import controller.FuncaoCadastro;
 
 public class CadastroUsuario extends javax.swing.JFrame {
 
@@ -35,8 +35,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 txtNomeCadastroActionPerformed(evt);
             }
         });
-
-        txtSenhaCadastro.setText("jPasswordField1");
 
         botaoCadastrar.setText("Cadastrar");
 
@@ -110,28 +108,22 @@ public class CadastroUsuario extends javax.swing.JFrame {
     String nome = txtNomeCadastro.getText();
     String email = txtEmailCadastro.getText();
     String senha = new String(txtSenhaCadastro.getPassword()); // pega o texto da senha
+   
     UsuarioDAO usuarioDAO = new UsuarioDAO();
+    FuncaoCadastro cadastro = new FuncaoCadastro(usuarioDAO);
+    
     try {
-        boolean sucesso = usuarioDAO.cadastrarUsuario(nome, email, senha);
+        boolean sucesso = cadastro.cadastrarUsuario(nome, email, senha);
         if (sucesso) {
             javax.swing.JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
             dispose();
             new LoginUsuario().setVisible(true); // Volta para a tela de login
         }
-    } catch (SQLException ex) {
+    } catch (Exception ex) {
         javax.swing.JOptionPane.showMessageDialog(this, "Erro ao cadastrar usuário: " + ex.getMessage());
         ex.printStackTrace();
     }
-}
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CadastroUsuario().setVisible(true);
-            }
-        });
-    }
-    
+}    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCadastrar;

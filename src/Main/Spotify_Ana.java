@@ -3,7 +3,6 @@ package Main;
 import model.Conexao_bd;
 import java.sql.Connection;
 import javax.swing.SwingUtilities;
-import view.CadastroUsuario;
 import view.LoginUsuario;
 
 public class Spotify_Ana {

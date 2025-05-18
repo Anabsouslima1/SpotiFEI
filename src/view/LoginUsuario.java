@@ -2,7 +2,9 @@ package view;
 
 import javax.swing.*;
 import java.awt.event.*;
+import controller.FuncaoLogin;
 import model.UsuarioDAO;
+import model.Usuario;
 
 public class LoginUsuario extends javax.swing.JFrame {
         
@@ -23,13 +25,19 @@ public class LoginUsuario extends javax.swing.JFrame {
                 return;
             }
 
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
             try {
-                boolean loginValido = usuarioDAO.validarLogin(email, senha);
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                FuncaoLogin login = new FuncaoLogin(usuarioDAO);
+                boolean loginValido = login.autenticar(email, senha);
                 if (loginValido) {
-                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                    dispose(); // fecha a tela de login
-                    new Home().setVisible(true);
+                    Usuario usuarioLogado = usuarioDAO.buscarPorEmail(email);
+                    if (usuarioLogado != null){
+                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+                        dispose(); // fecha a tela de login
+                        new Home(usuarioLogado.getNome()).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro ao caregar dados do usuário.");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos!");
                 }

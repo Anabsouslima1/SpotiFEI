@@ -1,3 +1,4 @@
+// Classe para acessar banco de dados
 package model;
 
 import java.sql.Connection;
@@ -18,8 +19,29 @@ public class UsuarioDAO {
             return rs.getInt(1) > 0;
         }
     }
+    
+    public Usuario buscarPorEmail(String email) throws SQLException {
+        String sql = "SELECT nome, email, senha FROM usuarios WHERE email = ?";
+        try (Connection conexao = Conexao_bd.conectar();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String nome = rs.getString("nome");
+                String emailDb = rs.getString("email");
+                String senha = rs.getString("senha");
+                return new Usuario(nome, emailDb, senha);
+            } else {
+                return null; // usuário não encontrado
+            }
+        }
+    }
 
-    public boolean cadastrarUsuario(String nome, String email, String senha) throws SQLException {
+    public boolean cadastrarUsuario(Usuario usuario) throws SQLException {
+        String nome = usuario.getNome();
+        String email = usuario.getEmail();
+        String senha = usuario.getSenha();
+        
         if(nome.isEmpty() || email.isEmpty() || senha.isEmpty()){
             JOptionPane.showMessageDialog(null,"Preencha todos os campos!");
             return false;
