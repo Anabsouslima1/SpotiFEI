@@ -28,8 +28,8 @@ public class LoginUsuario extends javax.swing.JFrame {
                 boolean loginValido = usuarioDAO.validarLogin(email, senha);
                 if (loginValido) {
                     JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                    // Aqui você pode abrir outra tela, ex: new TelaPrincipal().setVisible(true);
                     dispose(); // fecha a tela de login
+                    new Home().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos!");
                 }
