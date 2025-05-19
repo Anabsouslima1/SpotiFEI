@@ -9,7 +9,7 @@ public class MusicaDAO {
     public List<Object[]> listarMusicas() throws SQLException {
         List<Object[]> lista = new ArrayList<>();
 
-        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.data_lancamento " +
+        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
                      "FROM musicas " +
                      "JOIN artistas ON musicas.id_artista = artistas.id " +
                      "JOIN albuns ON musicas.id_album = albuns.id";
@@ -25,7 +25,7 @@ public class MusicaDAO {
                     rs.getString(3),
                     rs.getString(4),
                     rs.getTime(5).toString(),
-                    rs.getDate(6).toString()
+                    rs.getString(6)
                 });
             }
         }
@@ -36,7 +36,7 @@ public class MusicaDAO {
     // Método privado genérico para busca em qualquer campo
     private List<Object[]> buscarPorCampo(String campo, String valor) throws SQLException {
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.data_lancamento " +
+        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
                      "FROM musicas " +
                      "JOIN artistas ON musicas.id_artista = artistas.id " +
                      "JOIN albuns ON musicas.id_album = albuns.id " +
@@ -52,7 +52,7 @@ public class MusicaDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getTime(5).toString(),
-                        rs.getDate(6).toString()
+                        rs.getString(6)
                     });
                 }
             }

@@ -10,8 +10,8 @@ public class FuncaoCadastro {
         this.usuarioDAO = usuarioDAO;
     }
     
-     public boolean cadastrarUsuario(String nome, String email, String senha) throws Exception {
-        Usuario usuario = new Usuario(nome, email, senha);
+     public boolean cadastrarUsuario(String nome, String email, String senha, int id) throws Exception {
+        Usuario usuario = new Usuario(nome, email, senha, id);
         return usuarioDAO.cadastrarUsuario(usuario);
     }
 }

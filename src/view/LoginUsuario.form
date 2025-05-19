@@ -95,13 +95,22 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtEmailLogin">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailLoginKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtSenhaCadastro">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSenhaCadastroKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botaoLogin">
       <Properties>
         <Property name="text" type="java.lang.String" value="Entrar"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="botaoLoginKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -115,6 +124,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="botaoCadastroLoginKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

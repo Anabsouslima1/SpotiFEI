@@ -21,16 +21,19 @@ public class UsuarioDAO {
     }
     
     public Usuario buscarPorEmail(String email) throws SQLException {
-        String sql = "SELECT nome, email, senha FROM usuarios WHERE email = ?";
+        String sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = ?";
         try (Connection conexao = Conexao_bd.conectar();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String nome = rs.getString("nome");
-                String emailDb = rs.getString("email");
-                String senha = rs.getString("senha");
-                return new Usuario(nome, emailDb, senha);
+                Usuario usuario = new Usuario(
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("senha"),
+                    rs.getInt("id")
+                );
+                return usuario;       
             } else {
                 return null; // usuário não encontrado
             }
@@ -70,6 +73,21 @@ public class UsuarioDAO {
         return false;
     }
     
+    public int obterIdUsuario(String email, String senha) throws SQLException {
+        String sql = "SELECT id FROM usuarios WHERE email = ? AND senha = ?";
+        try (Connection conexao = Conexao_bd.conectar();
+             PreparedStatement pst = conexao.prepareStatement(sql)) {
+            pst.setString(1, email);
+            pst.setString(2, senha);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id"); 
+            } else {
+                return -1;
+            }
+        }
+    }
+
     public boolean validarLogin(String email, String senha) throws SQLException {
       String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
       try (Connection conexao = Conexao_bd.conectar();

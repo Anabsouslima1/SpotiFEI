@@ -34,7 +34,7 @@ public class LoginUsuario extends javax.swing.JFrame {
                     if (usuarioLogado != null){
                         JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
                         dispose(); // fecha a tela de login
-                        new Home(usuarioLogado.getNome()).setVisible(true);
+                        new Home(usuarioLogado).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro ao caregar dados do usuário.");
                     }
@@ -77,12 +77,34 @@ public class LoginUsuario extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Senha:");
 
+        txtEmailLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailLoginKeyPressed(evt);
+            }
+        });
+
+        txtSenhaCadastro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaCadastroKeyPressed(evt);
+            }
+        });
+
         botaoLogin.setText("Entrar");
+        botaoLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                botaoLoginKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("E-mail:");
 
         botaoCadastroLogin.setText("Cadastrar");
+        botaoCadastroLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                botaoCadastroLoginKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,6 +153,24 @@ public class LoginUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botaoLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_botaoLoginKeyPressed
+    }//GEN-LAST:event_botaoLoginKeyPressed
+
+    private void botaoCadastroLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_botaoCadastroLoginKeyPressed
+    }//GEN-LAST:event_botaoCadastroLoginKeyPressed
+
+    private void txtSenhaCadastroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaCadastroKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            botaoLogin.doClick();
+        }
+    }//GEN-LAST:event_txtSenhaCadastroKeyPressed
+
+    private void txtEmailLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailLoginKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtSenhaCadastro.requestFocus(); // move o foco para o campo da senha
+        }
+    }//GEN-LAST:event_txtEmailLoginKeyPressed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

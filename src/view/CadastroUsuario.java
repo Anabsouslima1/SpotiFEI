@@ -2,6 +2,7 @@ package view;
 
 import model.UsuarioDAO;
 import controller.FuncaoCadastro;
+import java.awt.event.KeyEvent;
 
 public class CadastroUsuario extends javax.swing.JFrame {
 
@@ -35,8 +36,30 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 txtNomeCadastroActionPerformed(evt);
             }
         });
+        txtNomeCadastro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNomeCadastroKeyPressed(evt);
+            }
+        });
+
+        txtEmailCadastro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailCadastroKeyPressed(evt);
+            }
+        });
+
+        txtSenhaCadastro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaCadastroKeyPressed(evt);
+            }
+        });
 
         botaoCadastrar.setText("Cadastrar");
+        botaoCadastrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                botaoCadastrarKeyPressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Cadastro");
@@ -104,16 +127,38 @@ public class CadastroUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeCadastroActionPerformed
 
+    private void txtNomeCadastroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeCadastroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtEmailCadastro.requestFocus();
+        }
+    }//GEN-LAST:event_txtNomeCadastroKeyPressed
+
+    private void txtEmailCadastroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailCadastroKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtSenhaCadastro.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailCadastroKeyPressed
+
+    private void botaoCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_botaoCadastrarKeyPressed
+    }//GEN-LAST:event_botaoCadastrarKeyPressed
+
+    private void txtSenhaCadastroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaCadastroKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            botaoCadastrar.doClick();
+        }
+    }//GEN-LAST:event_txtSenhaCadastroKeyPressed
+
    private void botaoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {
-    String nome = txtNomeCadastro.getText();
-    String email = txtEmailCadastro.getText();
-    String senha = new String(txtSenhaCadastro.getPassword()); // pega o texto da senha
-   
+        String nome = txtNomeCadastro.getText();
+        String email = txtEmailCadastro.getText();
+        String senha = new String(txtSenhaCadastro.getPassword());
+        int id = 0;
+    
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     FuncaoCadastro cadastro = new FuncaoCadastro(usuarioDAO);
     
     try {
-        boolean sucesso = cadastro.cadastrarUsuario(nome, email, senha);
+        boolean sucesso = cadastro.cadastrarUsuario(nome, email, senha, id);
         if (sucesso) {
             javax.swing.JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
             dispose();

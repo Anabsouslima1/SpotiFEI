@@ -10,9 +10,6 @@ public class Conexao_bd { /** Classe responsável por estabelecer a conexão com
     private static final String USUARIO = "postgres";
     private static final String SENHA = "070588";
 
-    /**Tenta se conectar ao banco de dados e retorna a conexão.
-     * @return Um objeto Connection, ou null se falhar
-     */
     public static Connection conectar() {
         try {
             Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
