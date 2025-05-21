@@ -22,21 +22,21 @@ CREATE TABLE IF NOT EXISTS albuns (
 );
 
 -- Criação da tabela playlists
-CREATE TABLE Playlists (
+CREATE TABLE IF NOT EXISTS playlist (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     descricao TEXT,
     id_usuario INTEGER NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
--- Criação da tabela playlist_musicas
-CREATE TABLE playlist_musicas (
-    playlist_id INT NOT NULL,
-    musica_id INT NOT NULL,
-    PRIMARY KEY (playlist_id, musica_id),
-    FOREIGN KEY (playlist_id) REFERENCES playlist(id) ON DELETE CASCADE,
-    FOREIGN KEY (musica_id) REFERENCES musicas(id) ON DELETE CASCADE
+-- Criação da tabela musica_playlist
+CREATE TABLE musica_playlist (
+    id_playlist INT NOT NULL,
+    id_musica INT NOT NULL,
+    PRIMARY KEY (id_playlist, id_musica),
+    FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_musica) REFERENCES musicas(id) ON DELETE CASCADE
 );
 
 -- Criação da tabela músicas
@@ -50,6 +50,16 @@ CREATE TABLE IF NOT EXISTS musicas (
     ano_lancamento INTEGER,
     FOREIGN KEY (id_album) REFERENCES albuns(id),
     FOREIGN KEY (id_artista) REFERENCES artistas(id)
+);
+
+-- Criação da tabela músicas curtidas
+    CREATE TABLE IF NOT EXISTS musicas_curtidas (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    id_musica INTEGER NOT NULL,
+    data_curtida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
+    FOREIGN KEY (id_musica) REFERENCES musicas(id)
 );
 
 -- Limpa tabelas para evitar duplicações (opcional, cuidado em produção)

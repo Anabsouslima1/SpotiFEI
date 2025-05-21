@@ -9,7 +9,7 @@ public class MusicaDAO {
     public List<Object[]> listarMusicas() throws SQLException {
         List<Object[]> lista = new ArrayList<>();
 
-        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
+        String sql = "SELECT musicas.id, musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
                      "FROM musicas " +
                      "JOIN artistas ON musicas.id_artista = artistas.id " +
                      "JOIN albuns ON musicas.id_album = albuns.id";
@@ -20,12 +20,13 @@ public class MusicaDAO {
 
             while (rs.next()) {
                 lista.add(new Object[] {
-                    rs.getString(1),
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    rs.getTime(5).toString(),
-                    rs.getString(6)
+                    rs.getInt(1), // id
+                    rs.getString(2), // titulo
+                    rs.getString(3), // artista
+                    rs.getString(4), // album
+                    rs.getString(5), // genero
+                    rs.getTime(6).toString(), // duracao
+                    rs.getString(7) // ano                 
                 });
             }
         }
@@ -36,7 +37,7 @@ public class MusicaDAO {
     // Método privado genérico para busca em qualquer campo
     private List<Object[]> buscarPorCampo(String campo, String valor) throws SQLException {
         List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
+        String sql = "SELECT musicas.id, musicas.titulo, artistas.nome, albuns.titulo, musicas.genero, musicas.duracao, musicas.ano_lancamento " +
                      "FROM musicas " +
                      "JOIN artistas ON musicas.id_artista = artistas.id " +
                      "JOIN albuns ON musicas.id_album = albuns.id " +
@@ -47,12 +48,13 @@ public class MusicaDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     lista.add(new Object[] {
-                        rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getTime(5).toString(),
-                        rs.getString(6)
+                        rs.getInt(1), // id
+                        rs.getString(2), // titulo
+                        rs.getString(3), // artista
+                        rs.getString(4), // album
+                        rs.getString(5), // genero
+                        rs.getTime(6).toString(), // duracao
+                        rs.getString(7) // ano
                     });
                 }
             }
@@ -62,11 +64,15 @@ public class MusicaDAO {
     
     public int buscarIdMusicaPorNome(String nomeMusica) throws SQLException {
         String sql = "SELECT id FROM musicas WHERE titulo = ?";
-        PreparedStatement stmt = Conexao_bd.conectar().prepareStatement(sql);
-        stmt.setString(1, nomeMusica);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("id");
+        try (Connection conn = Conexao_bd.conectar();
+
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, nomeMusica);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
         }
         throw new SQLException("Música não encontrada: " + nomeMusica);
     }

@@ -7,6 +7,7 @@ import model.MusicaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import model.MusicaCurtidaDAO;
 import model.Playlist;
 import model.Usuario;
 
@@ -14,12 +15,9 @@ public class Home extends JFrame {
 
     private Usuario usuarioLogado;
     private FuncaoMusica funcaoMusica;
-    private Playlist playlistSelecionada;
     JPopupMenu menuPlaylists = new JPopupMenu();
-    JPopupMenu menuMusica = new JPopupMenu();
-   
+  
     public Home(Usuario usuario, Playlist playlist){
-        this.playlistSelecionada = playlist;
         this.usuarioLogado = usuario;
         initComponents();
         atualizarContadorMusicas();        
@@ -44,6 +42,11 @@ public class Home extends JFrame {
         
         try {
             tabelaMusicas.setModel(funcaoMusica.obterMusicas());
+            
+            // Esconde a primeira coluna (ID)
+            tabelaMusicas.getColumnModel().getColumn(0).setMinWidth(0);
+            tabelaMusicas.getColumnModel().getColumn(0).setMaxWidth(0);
+            tabelaMusicas.getColumnModel().getColumn(0).setWidth(0);
         }catch (Exception e){
             JOptionPane.showMessageDialog(null,"Erro ao carregar músicas: " + e.getMessage());
         }
@@ -109,26 +112,54 @@ public class Home extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                new MusicasCurtidas().setVisible(true);
+                new MusicasCurtidas(usuarioLogado.getId()).setVisible(true);
             }
         });
         
-            JPopupMenu menuMusica = new JPopupMenu(); // menu específico da tabela de músicas
-
-        // Configurar menu popup da tabelaMusicas
+        JPopupMenu menuMusica = new JPopupMenu(); // menu específico da tabela de músicas
+                
+        // Menu ao clicar em música (playlist)
         JMenuItem adicionarPlaylist = new JMenuItem("Adicionar à Playlist");
         menuMusica.add(adicionarPlaylist);
+        
+        // Menu ao clicar em música (curtir)
+        JMenuItem adicionarCurtida = new JMenuItem("Curtir");
+        menuMusica.add(adicionarCurtida);   
 
-        // Evento do item do menu
+        // Evento do item do menu (Playlist)
         adicionarPlaylist.addActionListener(e -> {
             int linhaSelecionada = tabelaMusicas.getSelectedRow();
+
             if (linhaSelecionada != -1) {
-                // Obter dados da música selecionada (exemplo: nome da música na coluna 0)
-                String nomeMusica = tabelaMusicas.getValueAt(linhaSelecionada, 0).toString();
+                String nomeMusica = tabelaMusicas.getValueAt(linhaSelecionada, 1).toString();
+               
                 // Abrir a janela para selecionar playlist e adicionar essa música
                 new AdicionarMusicaPlaylist(nomeMusica, usuarioLogado.getId()).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma música para adicionar.");
+            }
+        });
+        
+        // Evento do item do menu (Curtidas)
+        adicionarCurtida.addActionListener(e ->{
+            int linhaSelecionada = tabelaMusicas.getSelectedRow();
+            if (linhaSelecionada != 1){
+                int idMusica = Integer.parseInt(tabelaMusicas.getValueAt(linhaSelecionada, 0).toString());
+                try {
+                    MusicaCurtidaDAO dao = new MusicaCurtidaDAO();
+                    if (!dao.jaCurtida(usuarioLogado.getId(), idMusica)) {
+                        dao.curtirMusica(usuarioLogado.getId(), idMusica);
+                        tabelaMusicas.setRowSelectionInterval(linhaSelecionada, linhaSelecionada);
+                        tabelaMusicas.setSelectionBackground(Color.GREEN);
+                        JOptionPane.showMessageDialog(this, "Música curtida com sucesso!");
+                    } else {
+                           JOptionPane.showMessageDialog(this, "Você já curtiu essa música.");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao curtir música: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma música para curtir.");
             }
         });
 
@@ -154,7 +185,6 @@ public class Home extends JFrame {
                 }
             }
         });
-
     }
     
     // Função carregar
@@ -201,11 +231,11 @@ public class Home extends JFrame {
         atualizarContadorMusicas();
     }
     
+    // Meramente estético, para mostrar quantidade de músicas da biblioteca
     private void atualizarContadorMusicas(){
         int total = tabelaMusicas.getRowCount();
         labelTotalMusicas.setText("Total de Músicas: " + total);
-    }
-      
+    }      
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

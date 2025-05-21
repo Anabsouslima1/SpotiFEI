@@ -31,11 +31,11 @@ public class EditarPlaylist extends JFrame {
         carregarMusicas();
 
         JPanel painelTopo = new JPanel();
-        painelTopo.setLayout(new GridLayout(2, 1));
+        painelTopo.setLayout(new GridLayout(4, 1));
         painelTopo.add(new JLabel("Nome:"));
         painelTopo.add(campoNome);
         painelTopo.add(new JLabel("Descrição:"));
-        painelTopo.add(campoDescricao);
+        painelTopo.add(new JScrollPane(campoDescricao));
 
         add(painelTopo, BorderLayout.NORTH);
         add(new JScrollPane(listaMusicas), BorderLayout.CENTER);
@@ -58,7 +58,10 @@ public class EditarPlaylist extends JFrame {
             }
         });
         
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    
+        carregarMusicas();
+        
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
     
     private void carregarMusicas() {
