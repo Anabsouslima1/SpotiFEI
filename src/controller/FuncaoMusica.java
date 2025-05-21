@@ -3,6 +3,8 @@ package controller;
 import model.MusicaDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.Musica;
+import model.Playlist;
 
 public class FuncaoMusica {
     private MusicaDAO musicaDAO;
@@ -48,6 +50,21 @@ public class FuncaoMusica {
         DefaultTableModel model = new DefaultTableModel(colunas, 0);
         for (Object[] linha : dados) {
             model.addRow(linha);
+        }
+        return model;
+    }
+    
+    // Método para obter músicas de uma playlist
+        public DefaultTableModel obterMusicasDaPlaylist(Playlist playlist) {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Nome", "Artista", "Duração"}, 0);
+        if (playlist != null && playlist.getMusicas() != null) {
+            for (Musica musica : playlist.getMusicas()) {
+                model.addRow(new Object[]{
+                    musica.getNome(), 
+                    musica.getArtista(), 
+                    musica.getDuracao()
+                });
+            }
         }
         return model;
     }

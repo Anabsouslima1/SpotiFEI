@@ -60,6 +60,18 @@ public class MusicaDAO {
         return lista;
     }
     
+    public int buscarIdMusicaPorNome(String nomeMusica) throws SQLException {
+        String sql = "SELECT id FROM musicas WHERE titulo = ?";
+        PreparedStatement stmt = Conexao_bd.conectar().prepareStatement(sql);
+        stmt.setString(1, nomeMusica);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("id");
+        }
+        throw new SQLException("Música não encontrada: " + nomeMusica);
+    }
+
+    
     public List<Object[]> buscarPorNome(String nome) throws SQLException {
         return buscarPorCampo("musicas.titulo", nome);
     }

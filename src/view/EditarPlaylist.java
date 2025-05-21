@@ -1,15 +1,80 @@
 package view;
 
+import controller.FuncaoMusica;
+import java.awt.*;
 import javax.swing.*;
+import model.Playlist;
+import model.Musica;
+import model.MusicaDAO;
+import model.PlaylistDAO;
 
 public class EditarPlaylist extends JFrame {
+    
+    private Playlist playlist;
+    private JTextField campoNome;
+    private JTextArea campoDescricao;
+    private JList<String> listaMusicas;
+    private FuncaoMusica funcaoMusica;
 
-    public EditarPlaylist() {
-        initComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    public EditarPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+        this.funcaoMusica = new FuncaoMusica(new MusicaDAO());
+        
+        setTitle("Editar Playlist: " + playlist.getNome());
+        setSize(500, 400);
+        setLayout(new BorderLayout());
+
+        campoNome = new JTextField(playlist.getNome(), 20);
+        campoDescricao = new JTextArea(playlist.getDescricao(), 5, 20);
+        listaMusicas = new JList<>();
+
+        carregarMusicas();
+
+        JPanel painelTopo = new JPanel();
+        painelTopo.setLayout(new GridLayout(2, 1));
+        painelTopo.add(new JLabel("Nome:"));
+        painelTopo.add(campoNome);
+        painelTopo.add(new JLabel("Descrição:"));
+        painelTopo.add(campoDescricao);
+
+        add(painelTopo, BorderLayout.NORTH);
+        add(new JScrollPane(listaMusicas), BorderLayout.CENTER);
+
+        JButton salvar = new JButton("Salvar Alterações");
+        add(salvar, BorderLayout.SOUTH);
+
+        salvar.addActionListener(e -> {
+            playlist.setNome(campoNome.getText());
+            playlist.setDescricao(campoDescricao.getText());
+
+            PlaylistDAO dao = new PlaylistDAO();
+            boolean sucesso = dao.atualizarPlaylist(playlist);
+
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Playlist atualizada com sucesso!");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar a playlist.");
+            }
+        });
+        
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);    
+    }
+    
+    private void carregarMusicas() {
+        try {
+            PlaylistDAO dao = new PlaylistDAO();
+            playlist.setMusicas(dao.listarMusicasDaPlaylist(playlist.getId()));
+            DefaultListModel<String> model = new DefaultListModel<>();
+            for (Musica musica : playlist.getMusicas()) {
+                model.addElement(musica.getNome() + " - " + musica.getArtista());
+            }
+            listaMusicas.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar músicas: " + e.getMessage());
+        }
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -39,39 +104,6 @@ public class EditarPlaylist extends JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarPlaylist.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditarPlaylist().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel tituloCriarPlaylist;
     // End of variables declaration//GEN-END:variables

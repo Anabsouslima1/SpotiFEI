@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.Playlist;
+import model.*;
 import controller.ControladorPlaylists;
+import java.awt.event.ItemEvent;
 
 public class AdicionarMusicaPlaylist extends JFrame {
     private JPanel painelCheckboxes;
@@ -15,19 +16,25 @@ public class AdicionarMusicaPlaylist extends JFrame {
     private List<JCheckBox> checkboxes = new ArrayList<>();
     private String nomeMusica;
     private int idUsuario;
+    private JList<String> listaMusicas;
+    private DefaultListModel<String> modeloListaMusicas;
     
     public AdicionarMusicaPlaylist(String nomeMusica, int idUsuario) {
         this.nomeMusica = nomeMusica;
         this.idUsuario = idUsuario;
         
         setTitle("Adicionar Música à Playlist");
-        setSize(400, 300);
+        setSize(600, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         painelCheckboxes = new JPanel();
         painelCheckboxes.setLayout(new BoxLayout(painelCheckboxes, BoxLayout.Y_AXIS));
 
+        modeloListaMusicas = new DefaultListModel<>();
+        listaMusicas = new JList<>(modeloListaMusicas);
+        JScrollPane scrollMusicas = new JScrollPane(listaMusicas);
+        
         List<Playlist> playlists = ControladorPlaylists.getPlaylists();
 
         if (playlists.isEmpty()) {
@@ -37,7 +44,7 @@ public class AdicionarMusicaPlaylist extends JFrame {
             botaoCriarPlaylist = new JButton("Criar Playlist");
             botaoCriarPlaylist.addActionListener(e -> {
                 new CriarPlaylist(idUsuario).setVisible(true);
-                dispose(); // fecha essa janela
+                dispose(); 
             });
 
             JPanel painelCentral = new JPanel(new BorderLayout());
@@ -47,35 +54,72 @@ public class AdicionarMusicaPlaylist extends JFrame {
         } else {
             for (Playlist p : playlists) {
                 JCheckBox check = new JCheckBox(p.getNome());
+                check.addItemListener(e -> {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        mostrarMusicasDaPlaylist(p);
+                    } else {
+                        modeloListaMusicas.clear(); // Limpa a lista se a playlist for desmarcada
+                    }
+                });
                 checkboxes.add(check);
                 painelCheckboxes.add(check);
             }
 
-            JScrollPane scrollPane = new JScrollPane(painelCheckboxes);
-            add(scrollPane, BorderLayout.CENTER);
+            JPanel painelCentral = new JPanel(new GridLayout(1, 2));
+            painelCentral.add(new JScrollPane(painelCheckboxes));
+            painelCentral.add(scrollMusicas);
+
+            add(painelCentral, BorderLayout.CENTER);
 
             botaoAdicionar = new JButton("Adicionar");
             botaoAdicionar.addActionListener(e -> {
-                List<String> selecionadas = new ArrayList<>();
+                List<Playlist> selecionadas = new ArrayList<>();
                 for (int i = 0; i < checkboxes.size(); i++) {
                     if (checkboxes.get(i).isSelected()) {
-                        selecionadas.add(playlists.get(i).getNome());
+                        selecionadas.add(playlists.get(i));
                     }
                 }
 
                 if (selecionadas.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Nenhuma playlist selecionada.");
                 } else {
-                    // aqui você adicionaria a música às playlists selecionadas
-                    JOptionPane.showMessageDialog(this, "Música adicionada às playlists: " + selecionadas);
-                    dispose(); // fecha a janela após ação
-                }
+                    try {
+                        MusicaDAO musicaDAO = new MusicaDAO();
+                        PlaylistDAO playlistDAO = new PlaylistDAO();
+                        int idMusica = musicaDAO.buscarIdMusicaPorNome(nomeMusica);
+            
+                        for (Playlist p : selecionadas) {
+                            playlistDAO.adicionarMusicaNaPlaylist(idMusica, p.getId());
+                        }
+                        
+                        JOptionPane.showMessageDialog(this, "Música adicionada à playlist selecionada.");
+                        dispose();                        
+                    
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "Erro ao adicionar música: " + ex.getMessage());
+                        ex.printStackTrace();
+                    }
+                }   
             });
             add(botaoAdicionar, BorderLayout.SOUTH);
         }
 
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+     private void mostrarMusicasDaPlaylist(Playlist playlist) {
+        try {
+            PlaylistDAO dao = new PlaylistDAO();
+            List<Musica> musicas = dao.listarMusicasDaPlaylist(playlist.getId());
+
+            modeloListaMusicas.clear();
+            for (Musica musica : musicas) {
+                modeloListaMusicas.addElement(musica.getNome() + " - " + musica.getArtista());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar músicas da playlist: " + e.getMessage());
+        }
     }
    
     @SuppressWarnings("unchecked")

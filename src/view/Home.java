@@ -7,16 +7,19 @@ import model.MusicaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import model.Playlist;
 import model.Usuario;
 
 public class Home extends JFrame {
 
     private Usuario usuarioLogado;
     private FuncaoMusica funcaoMusica;
+    private Playlist playlistSelecionada;
     JPopupMenu menuPlaylists = new JPopupMenu();
     JPopupMenu menuMusica = new JPopupMenu();
    
-    public Home(Usuario usuario) {
+    public Home(Usuario usuario, Playlist playlist){
+        this.playlistSelecionada = playlist;
         this.usuarioLogado = usuario;
         initComponents();
         atualizarContadorMusicas();        
@@ -82,7 +85,7 @@ public class Home extends JFrame {
         });
 
         opcaoEditar.addActionListener(e -> {
-            new EditarPlaylist().setVisible(true); // você vai criar essa classe
+            new SelecaoPlaylist(usuarioLogado.getId()).setVisible(true); // você vai criar essa classe
         });
 
         opcaoExcluir.addActionListener(e -> {

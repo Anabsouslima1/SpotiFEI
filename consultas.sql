@@ -30,6 +30,15 @@ CREATE TABLE Playlists (
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id)
 );
 
+-- Criação da tabela playlist_musicas
+CREATE TABLE playlist_musicas (
+    playlist_id INT NOT NULL,
+    musica_id INT NOT NULL,
+    PRIMARY KEY (playlist_id, musica_id),
+    FOREIGN KEY (playlist_id) REFERENCES playlist(id) ON DELETE CASCADE,
+    FOREIGN KEY (musica_id) REFERENCES musicas(id) ON DELETE CASCADE
+);
+
 -- Criação da tabela músicas
 CREATE TABLE IF NOT EXISTS musicas (
     id SERIAL PRIMARY KEY,

@@ -3,11 +3,14 @@ package view;
 import javax.swing.*;
 import java.awt.event.*;
 import controller.FuncaoLogin;
+import model.Playlist;
 import model.UsuarioDAO;
 import model.Usuario;
 
 public class LoginUsuario extends javax.swing.JFrame {
-        
+    
+    Playlist playlistVazia = new Playlist();
+    
     public LoginUsuario() {
         initComponents();
         adicionarEventos();
@@ -34,7 +37,7 @@ public class LoginUsuario extends javax.swing.JFrame {
                     if (usuarioLogado != null){
                         JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
                         dispose(); // fecha a tela de login
-                        new Home(usuarioLogado).setVisible(true);
+                        new Home(usuarioLogado, playlistVazia).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro ao caregar dados do usuário.");
                     }
@@ -171,15 +174,6 @@ public class LoginUsuario extends javax.swing.JFrame {
             txtSenhaCadastro.requestFocus(); // move o foco para o campo da senha
         }
     }//GEN-LAST:event_txtEmailLoginKeyPressed
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginUsuario().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCadastroLogin;
     private javax.swing.JButton botaoLogin;
