@@ -10,7 +10,7 @@ O objetivo do projeto **SpotiFEI** é simular uma plataforma de informações de
 - Padrão MVC (Model-View-Controller): Organização do código em camadas
 
 ## O que foi feito
-Este projeto foi desenvolvido no NetBeans e versionado com Git. 
+Este projeto foi desenvolvido no NetBeans, utiliza banco de dados PostgreSQL e foi versionado com Git. 
 
 ## Como Rodar o Projeto
 Para executar este projeto no seu computador usando o NetBeans:
@@ -51,17 +51,19 @@ A seguir está a lista de pastas e classes criadas, organizadas de acordo com ca
   - `FuncaoMusica`: 
 
 ### **`model`**: Contém as classes que representam os dados e regras de negócio.
-  - `Artista`:
+  - `Modelos de dados`: classes que representam os objetos do domínio da aplicação, como:   
+    - `Pessoa`: nome, id, como atributos.
+    - `Musica`
+    - `Usuario`
+    - `Playlist`
+  - `DAOs (Data Access Objects)`: classes responsáveis por realizar operações no banco de dados, como inserção, atualização, exclusão e consulta.
+    - `UsuarioDAO`:
+    - `MusicaDAO`:
+    - `MusicaCurtidaDAO`:
+    - `PlaylistDAO`:
+  - `Regras de negócio`: validações e lógicas específicas que garantem o funcionamento correto da aplicação.
   - `Conexao_bd`:
-  - `Musica`:
-  - `MusicaCurtida`:
-  - `MusicaCurtidaDAO`:
-  - `MusicaDAO`:
-  - `Pessoa`:
-  - `Playlist`:
-  - `PlaylistDAO`:
-  - `Usuario`:
-  - `UsuarioDAO`:
+  - `MusicaCurtida`:  
 
 ### **`view`**: Contém todas as telas da aplicação feitas com Java Swing.
 
