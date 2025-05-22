@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Conexao_bd.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/Main/Spotify_Ana.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/Home.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/controller/FuncaoMusica.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/MusicaDAO.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/CadastroUsuario.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/AdicionarMusicaPlaylist.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/controller/ControladorPlaylists.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Playlist.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/CriarPlaylist.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/PlaylistDAO.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/UsuarioDAO.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/LoginUsuario.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Usuario.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Pessoa.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/controller/FuncaoCadastro.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Artista.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/SelecaoPlaylist.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/EditarPlaylist.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Musica.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/MusicaCurtida.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/MusicaCurtidaDAO.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/MusicasCurtidas.java</file>
+        </group>
+    </open-files>
+</project-private>
