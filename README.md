@@ -1,5 +1,4 @@
 # SpotiFEI
-## Descrição
 O objetivo do projeto **SpotiFEI** é simular uma plataforma de informações de áudios digitais, como músicas e podcasts. O projeto foi inspirado na *Plataforma de Streaming de Áudios Digitais Spotify*. 
 
 ## Tecnologias Utilizadas
