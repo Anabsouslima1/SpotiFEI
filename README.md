@@ -1,8 +1,8 @@
 # SpotiFEI
-Este programa simula um app de músicas, como o spotify, como projeto da disciplina CCM310 -  Arquitetura de Software e POO.
+Este programa simula um app de músicas, como o spotify, como projeto da disciplina CCM310 -  Arquitetura de Software e Programação Orientada a Objetos.
 
 ## Descrição
-O objetivo do projeto **SpotiFEI** é simular uma plataforma de informações de áudios digitais, como músicas e podcasts. O projeto foi inspirado na Plataforma de Streaming de Áudios Digitais *Spotify*. 
+O objetivo do projeto **SpotiFEI** é simular uma plataforma de informações de áudios digitais, como músicas e podcasts. O projeto foi inspirado na *Plataforma de Streaming de Áudios Digitais Spotify*. 
 
 ## Tecnologias Utilizadas
 - Java Swing: Interface gráfica do usuário (GUI)
@@ -41,5 +41,10 @@ String url = "jdbc:postgresql://localhost:5432/nome_do_banco";
 5. **Execute o projeto**
    Após configurar corretamente o banco de dados, o projeto estará pronto para execução. No NetBeans, clique com o botão direito no projeto e selecione "Run" ou pressione F6. 
 
+## Documentação
+
+### Arquivos Principais
 
 
+
+## Professores responsáveis: Profª. Dra. Gabriela Biondi, Prof. Dr. Isaac Jesus da Silva e Prof. Dr. Luciano Rossi.
