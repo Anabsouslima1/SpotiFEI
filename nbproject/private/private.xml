@@ -23,6 +23,9 @@
             <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/SelecaoPlaylist.java</file>
             <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/EditarPlaylist.java</file>
             <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/Musica.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/MusicaCurtida.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/model/MusicaCurtidaDAO.java</file>
+            <file>file:/C:/Users/caeda/OneDrive%20-%20FEI/Documentos/NetBeansProjects/Spotify_Ana/src/view/MusicasCurtidas.java</file>
         </group>
     </open-files>
 </project-private>

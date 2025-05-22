@@ -30,15 +30,6 @@ CREATE TABLE IF NOT EXISTS playlist (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
--- Criação da tabela musica_playlist
-CREATE TABLE musica_playlist (
-    id_playlist INT NOT NULL,
-    id_musica INT NOT NULL,
-    PRIMARY KEY (id_playlist, id_musica),
-    FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_musica) REFERENCES musicas(id) ON DELETE CASCADE
-);
-
 -- Criação da tabela músicas
 CREATE TABLE IF NOT EXISTS musicas (
     id SERIAL PRIMARY KEY,
@@ -52,20 +43,34 @@ CREATE TABLE IF NOT EXISTS musicas (
     FOREIGN KEY (id_artista) REFERENCES artistas(id)
 );
 
+-- Criação da tabela musica_playlist
+CREATE TABLE IF NOT EXISTS musica_playlist (
+    id_playlist INT NOT NULL,
+    id_musica INT NOT NULL,
+    PRIMARY KEY (id_playlist, id_musica),
+    FOREIGN KEY (id_playlist) REFERENCES playlist(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_musica) REFERENCES musicas(id) ON DELETE CASCADE
+);
+
 -- Criação da tabela músicas curtidas
     CREATE TABLE IF NOT EXISTS musicas_curtidas (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     id_usuario INTEGER NOT NULL,
     id_musica INTEGER NOT NULL,
     data_curtida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (id_usuario, id_musica),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
     FOREIGN KEY (id_musica) REFERENCES musicas(id)
 );
 
 -- Limpa tabelas para evitar duplicações (opcional, cuidado em produção)
-DELETE FROM musicas;
-DELETE FROM albuns;
+DELETE FROM usuarios;
 DELETE FROM artistas;
+DELETE FROM albuns;
+DELETE FROM playlist;
+DELETE FROM musica_playlist;
+DELETE FROM musicas;
+DELETE FROM musicas_curtidas;
 
 -- Insere artistas
 INSERT INTO artistas (id, nome) VALUES
@@ -95,7 +100,6 @@ INSERT INTO artistas (id, nome) VALUES
 (24, 'Alice Phoebe Lou'),
 (25, 'Caravan Palace');
 
-
 -- Insere álbuns
 INSERT INTO albuns (id, id_artista, titulo, ano_lancamento) VALUES
 (1, 1, 'Construção', 1971),
@@ -122,8 +126,24 @@ INSERT INTO albuns (id, id_artista, titulo, ano_lancamento) VALUES
 (22, 22, 'CHROMAKOPIA', 2017),
 (23, 23, 'Short n'' Sweet', 2022),
 (24, 24, 'Glow', 2019),
-(25, 25, 'Gangbusters Melody Club', 2019);
-
+(25, 25, 'Gangbusters Melody Club', 2019),
+(26, 7, 'DAMN.', 2017),
+(27, 8, 'The Slow Rush', 2020),
+(28, 9, 'Unreal Unearth', 2023),
+(29, 9, 'Wasteland, Baby!', 2019),
+(30, 11, 'América Brasil: O Disco', 2007),
+(31, 12, 'The Fame Monster', 2009),
+(32, 13, 'Chega Mais', 1979),
+(33, 14, 'Complete', 2011),
+(34, 15, 'Favourite Worst Nightmare', 2007),
+(35, 16, 'Mezmerize', 2005),
+(36, 2, 'Tim Maia 1973', 1973),
+(37, 3, 'Nevermind', 1991),
+(38, 3, 'Bleach', 1989),
+(39, 5, 'Superclean, Vol. II', 2018),
+(40, 5, 'CINEMA', 2021),
+(41, 6, 'Legião Urbana', 1985),
+(42, 6, 'Que Pais E Este', 1987);
 
 
 -- Insere músicas
@@ -327,4 +347,204 @@ INSERT INTO musicas (id_album, id_artista, titulo, duracao, genero, ano_lancamen
     '00:03:24',
     'Electro Swing',
     2024
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'DAMN.' AND id_artista = 7),
+    7,
+    'DUCKWORTH.',
+    '00:04:09',
+    'West Coast Hip-Hop',
+    2017
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'The Slow Rush' AND id_artista = 8),
+    8,
+    'It Might Be Time',
+    '00:04:33',
+    'Psychedelic Rock, Art Pop',
+    2020
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'The Slow Rush' AND id_artista = 8),
+    8,
+    'Is It True',
+    '00:03:58',
+    'Disco, Psychedelic Rock, Boogie, Funk',
+    2020
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Unreal Unearth' AND id_artista = 9),
+    9,
+    'First Time',
+    '00:04:00',
+    'Indie Rock',
+    2024
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Hozier' AND id_artista = 9),
+    9,
+    'Take Me To Church',
+    '00:04:01',
+    'Alternative Rock, Blues Rock, Soul',
+    2014
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Wasteland, Baby!' AND id_artista = 9),
+    9,
+    'Would That I',
+    '00:03:47',
+    'Indie Folk, Soul',
+    2019
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Musica para Churrasco, Vol. 1' AND id_artista = 11),
+    11,
+    'Amiga da Minha Mulher',
+    '00:04:11',
+    'MPB, Samba-Pop',
+    2011
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'América Brasil: O Disco' AND id_artista = 11),
+    11,
+    'Burguesinha',
+    '00:05:10',
+    'Samba-Pop',
+    2007
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'The Fame Monster' AND id_artista = 12),
+    12,
+    'Telephone',
+    '00:03:41',
+    'Electropop',
+    2009
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Chega Mais' AND id_artista = 13),
+    13,
+    'Chega Mais',
+    '00:03:55',
+    'Pop Rock',
+    1979
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Complete' AND id_artista = 14),
+    14,
+    'Back to the Old House',
+    '00:03:06',
+    'Alternative Rock',
+    2011
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Favourite Worst Nightmare' AND id_artista = 15),
+    15,
+    'If You Were There, Beware',
+    '00:04:34',
+    'Indie Rock',
+    2007
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Mezmerize' AND id_artista = 16),
+    16,
+    'Radio/Video',
+    '00:04:11',
+    'Alternative Metal',
+    2005
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Toxicity' AND id_artista = 16),
+    16,
+    'Chop Suey!',
+    '00:03:30',
+    'Nu Metal, Alternative Metal',
+    2001
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Construção' AND id_artista = 1),
+    1,
+    'Apesar de Você',
+    '00:03:20',
+    'MPB',
+    1970
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Tim Maia 1973' AND id_artista = 2),
+    2,
+    'Réu Confesso',
+    '00:03:38',
+    'Soul',
+    1973
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Nevermind' AND id_artista = 3),
+    3,
+    'Something In The Way',
+    '00:03:52',
+    'Grunge',
+    1991
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Bleach' AND id_artista = 3),
+    3,
+    'Love Buzz',
+    '00:03:35',
+    'Grunge',
+    1989
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Submarine' AND id_artista = 5),
+    5,
+    'Sienna',
+    '00:03:44',
+    'Indie Pop',
+    2024
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Superclean, Vol. II' AND id_artista = 5),
+    5,
+    'Cariño',
+    '00:04:00',
+    'Indie Pop',
+    2018
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'CINEMA' AND id_artista = 5),
+    5,
+    'Hush',
+    '00:03:30',
+    'Indie Pop',
+    2021
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Legião Urbana' AND id_artista = 6),
+    6,
+    'Será',
+    '00:03:45',
+    'Rock Brasileiro',
+    1985
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Que Pais E Este' AND id_artista = 6),
+    6,
+    'Angra dos Reis',
+    '00:04:58',
+    'Rock Alternativo',
+    1987
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Ella Fitzgerald Sings the Cole Porter Songbook' AND id_artista = 4),
+    4,
+    'Let''s Fall in Love',
+    '00:03:04',
+    'Jazz',
+    1956
+),
+(
+    (SELECT id FROM albuns WHERE titulo = 'Construção' AND id_artista = 1),
+    1,
+    'Valsinha',
+    '00:01:59',
+    'MPB',
+    1971
 );

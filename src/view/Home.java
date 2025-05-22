@@ -250,6 +250,7 @@ public class Home extends JFrame {
         linkCurtidas = new javax.swing.JLabel();
         linkPlaylist = new javax.swing.JLabel();
         labelTotalMusicas = new javax.swing.JLabel();
+        txtHistorico = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -285,6 +286,8 @@ public class Home extends JFrame {
 
         labelTotalMusicas.setText("Total de Músicas:");
 
+        txtHistorico.setText("Histórico");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -301,7 +304,9 @@ public class Home extends JFrame {
                                     .addComponent(linkCurtidas)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(23, 23, 23)
-                                        .addComponent(linkPlaylist)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtHistorico)
+                                            .addComponent(linkPlaylist))))
                                 .addGap(20, 20, 20))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(labelTotalMusicas)
@@ -336,7 +341,9 @@ public class Home extends JFrame {
                         .addGap(35, 35, 35)
                         .addComponent(linkCurtidas)
                         .addGap(48, 48, 48)
-                        .addComponent(linkPlaylist)))
+                        .addComponent(linkPlaylist)
+                        .addGap(41, 41, 41)
+                        .addComponent(txtHistorico)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -360,5 +367,6 @@ public class Home extends JFrame {
     private javax.swing.JLabel linkCurtidas;
     private javax.swing.JLabel linkPlaylist;
     private javax.swing.JTable tabelaMusicas;
+    private javax.swing.JLabel txtHistorico;
     // End of variables declaration//GEN-END:variables
 }

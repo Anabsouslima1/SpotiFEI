@@ -15,7 +15,7 @@ public class FuncaoMusica {
     public DefaultTableModel obterMusicas() throws Exception {
         List<Object[]> musicas = musicaDAO.listarMusicas();
 
-        String[] colunas = {"ID", "Título", "Nome", "Artista", "Gênero", "Duração", "Lançamento"};
+        String[] colunas = {"ID", "Título", "Artista", "Álbum", "Gênero", "Duração", "Lançamento"};
         DefaultTableModel model = new DefaultTableModel(colunas, 0);
 
         for (Object[] linha : musicas) {
@@ -44,7 +44,7 @@ public class FuncaoMusica {
     
     // Método usado para auxiliar buscas
     private DefaultTableModel criarModeloTabela(List<Object[]> dados) {
-        String[] colunas = {"ID", "Título", "Nome", "Artista", "Gênero", "Duração", "Lançamento"};
+        String[] colunas = {"ID", "Título", "Artista", "Álbum", "Gênero", "Duração", "Lançamento"};
         DefaultTableModel model = new DefaultTableModel(colunas, 0);
         for (Object[] linha : dados) {
             model.addRow(linha);
