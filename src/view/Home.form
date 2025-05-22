@@ -36,7 +36,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtHistorico" min="-2" max="-2" attributes="0"/>
+                                          <Component id="linkHistorico" min="-2" max="-2" attributes="0"/>
                                           <Component id="linkPlaylist" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -88,7 +88,7 @@
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       <Component id="linkPlaylist" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                      <Component id="txtHistorico" min="-2" max="-2" attributes="0"/>
+                      <Component id="linkHistorico" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -166,7 +166,7 @@
         <Property name="text" type="java.lang.String" value="Total de M&#xfa;sicas:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="txtHistorico">
+    <Component class="javax.swing.JLabel" name="linkHistorico">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hist&#xf3;rico"/>
       </Properties>

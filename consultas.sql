@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS musica_playlist (
     id_usuario INTEGER NOT NULL,
     id_musica INTEGER NOT NULL,
     data_curtida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ativa BOOLEAN DEFAULT TRUE,
     UNIQUE (id_usuario, id_musica),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
     FOREIGN KEY (id_musica) REFERENCES musicas(id)

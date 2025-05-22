@@ -98,6 +98,4 @@ public class UsuarioDAO {
           return rs.next(); // true se encontrou, false se não
       }
   }
-} 
-
-
+}

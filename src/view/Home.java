@@ -3,19 +3,17 @@ package view;
 import controller.FuncaoMusica;
 import java.awt.*;
 import java.awt.event.*;
-import model.MusicaDAO;
-
+import java.util.*;
+import model.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import model.MusicaCurtidaDAO;
-import model.Playlist;
-import model.Usuario;
 
 public class Home extends JFrame {
 
     private Usuario usuarioLogado;
     private FuncaoMusica funcaoMusica;
     JPopupMenu menuPlaylists = new JPopupMenu();
+    private LinkedList<String> historicoBuscas = new LinkedList<>();
   
     public Home(Usuario usuario, Playlist playlist){
         this.usuarioLogado = usuario;
@@ -117,6 +115,27 @@ public class Home extends JFrame {
         });
         
         JPopupMenu menuMusica = new JPopupMenu(); // menu específico da tabela de músicas
+        
+        // Configuração de Label para Histórico
+        linkHistorico.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        linkHistorico.setForeground(Color.BLACK);
+
+        linkHistorico.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                linkHistorico.setForeground(Color.BLUE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                linkHistorico.setForeground(Color.BLACK);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                new Historico(historicoBuscas).setVisible(true);
+            }
+        });
                 
         // Menu ao clicar em música (playlist)
         JMenuItem adicionarPlaylist = new JMenuItem("Adicionar à Playlist");
@@ -209,6 +228,14 @@ public class Home extends JFrame {
             if (textoBusca.isEmpty()) {
                 model = funcaoMusica.obterMusicas();
             } else {
+                
+                if (historicoBuscas.isEmpty() || !historicoBuscas.getLast().equalsIgnoreCase(textoBusca)) {
+                historicoBuscas.add(textoBusca);
+                    if (historicoBuscas.size() > 10) {
+                        historicoBuscas.removeFirst();
+                    }
+                }
+                
                 switch (criterio) {
                     case "Nome":
                         model = funcaoMusica.buscarPorNome(textoBusca);
@@ -237,6 +264,12 @@ public class Home extends JFrame {
         labelTotalMusicas.setText("Total de Músicas: " + total);
     }      
     
+    private void atualizarListaHistorico() {
+        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        for (int i = historicoBuscas.size() - 1; i >= 0; i--) { // Mostra do mais recente ao mais antigo
+            modeloLista.addElement(historicoBuscas.get(i));
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -250,7 +283,7 @@ public class Home extends JFrame {
         linkCurtidas = new javax.swing.JLabel();
         linkPlaylist = new javax.swing.JLabel();
         labelTotalMusicas = new javax.swing.JLabel();
-        txtHistorico = new javax.swing.JLabel();
+        linkHistorico = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -286,7 +319,7 @@ public class Home extends JFrame {
 
         labelTotalMusicas.setText("Total de Músicas:");
 
-        txtHistorico.setText("Histórico");
+        linkHistorico.setText("Histórico");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -305,7 +338,7 @@ public class Home extends JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(23, 23, 23)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtHistorico)
+                                            .addComponent(linkHistorico)
                                             .addComponent(linkPlaylist))))
                                 .addGap(20, 20, 20))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -343,7 +376,7 @@ public class Home extends JFrame {
                         .addGap(48, 48, 48)
                         .addComponent(linkPlaylist)
                         .addGap(41, 41, 41)
-                        .addComponent(txtHistorico)))
+                        .addComponent(linkHistorico)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -365,8 +398,8 @@ public class Home extends JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTotalMusicas;
     private javax.swing.JLabel linkCurtidas;
+    private javax.swing.JLabel linkHistorico;
     private javax.swing.JLabel linkPlaylist;
     private javax.swing.JTable tabelaMusicas;
-    private javax.swing.JLabel txtHistorico;
     // End of variables declaration//GEN-END:variables
 }
