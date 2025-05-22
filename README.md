@@ -81,6 +81,7 @@ A seguir está a lista de pastas e classes criadas, organizadas de acordo com ca
   - `ExcluirPlaylist`: Terceira opção no menu de playlists. Abre uma nova tela para seleção e exclusão de uma playlist existente. 
   - `AdicionarMusicaPlaylist`: Ao clicar em uma música da biblioteca, é possível selecionar a opção de adicioná-la a uma playlist. Uma nova tela é aberta com as playlists disponíveis para escolha.
   - `MusicasCurtidas`: Exibe uma nova tela com a lista de músicas curtidas na tela Home. A curtida é feita da mesma forma que a adição à playlist: clicando em uma linha da tabela de músicas.
+  - `Histórico`: Mostra três listas, para as 10 últimas buscadas, todas as curtidas e descurtidas.
 
 ## Considerações finais
 Este projeto permitiu a aplicação prática dos conceitos de programação orientada a objetos, arquitetura MVC e integração com banco de dados PostgreSQL. Foi possível desenvolver uma aplicação funcional que simula um serviço de streaming de música, consolidando conhecimentos técnicos e habilidades em desenvolvimento de software.
