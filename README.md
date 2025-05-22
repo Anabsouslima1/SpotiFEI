@@ -41,8 +41,7 @@ String url = "jdbc:postgresql://localhost:5432/nome_do_banco";
 5. **Execute o projeto**
    Após configurar corretamente o banco de dados, o projeto estará pronto para execução. No NetBeans, clique com o botão direito no projeto e selecione "Run" ou pressione F6. 
 
-## Documentação
-### Arquivos Principais
+## Documentação - Arquivos Principais
 
 
 
