@@ -10,7 +10,13 @@ O objetivo do projeto **SpotiFEI** é simular uma plataforma de informações de
 - Padrão MVC (Model-View-Controller): Organização do código em camadas
 
 ## Ferramentas
-Este projeto foi desenvolvido no NetBeans, utiliza banco de dados PostgreSQL e foi versionado com Git. 
+Este projeto foi desenvolvido no NetBeans, utiliza banco de dados PostgreSQL e foi versionado com Git.
+
+## Dependências
+- Java JDK 11 ou superior
+- PostgreSQL 13 ou superior
+- NetBeans IDE 12.0 ou superior
+- Biblioteca JDBC para PostgreSQL
 
 ## Como Rodar o Projeto
 Para executar este projeto no seu computador usando o NetBeans:
@@ -77,6 +83,11 @@ A seguir está a lista de pastas e classes criadas, organizadas de acordo com ca
   - `ExcluirPlaylist`: Terceira opção no menu de playlists. Abre uma nova tela para seleção e exclusão de uma playlist existente. 
   - `AdicionarMusicaPlaylist`: Ao clicar em uma música da biblioteca, é possível selecionar a opção de adicioná-la a uma playlist. Uma nova tela é aberta com as playlists disponíveis para escolha.
   - `MusicasCurtidas`: Exibe uma nova tela com a lista de músicas curtidas na tela Home. A curtida é feita da mesma forma que a adição à playlist: clicando em uma linha da tabela de músicas.
+
+## Considerações finais
+Este projeto permitiu a aplicação prática dos conceitos de programação orientada a objetos, arquitetura MVC e integração com banco de dados PostgreSQL. Foi possível desenvolver uma aplicação funcional que simula um serviço de streaming de música, consolidando conhecimentos técnicos e habilidades em desenvolvimento de software.
+
+Apesar dos desafios, foi uma experiência enriquecedora e contribuiu significativamente para o meu crescimento técnico, além de consolidar uma base inicial para o desenvolvimento de aplicações em Java. No caso de futuras versões, gostaria de aprimorar a interface gráfica e expandir as funcionalidades, além de explorar testes automatizados para garantir a qualidade do código.
 
 ## Professores responsáveis: 
 ### - Profª. Dra. Gabriela Biondi
