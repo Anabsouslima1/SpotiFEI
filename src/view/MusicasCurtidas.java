@@ -1,17 +1,81 @@
 package view;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.*;
-import model.MusicaCurtidaDAO;
+import model.*;
+import java.sql.*;
 
 public class MusicasCurtidas extends JFrame {
+    
+    private int idUsuario;
+    private JPopupMenu popupMenu;
+    private JMenuItem menuItemDescurtir;
 
     public MusicasCurtidas(int idUsuario) {
+        this.idUsuario = idUsuario;
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        criarPopupMenu();
+        adicionarMouseListenerPopup();
         carregarMusicasCurtidas(idUsuario);
     }
         
+    private void criarPopupMenu() {
+        popupMenu = new JPopupMenu();
+        menuItemDescurtir = new JMenuItem("Descurtir");
+        popupMenu.add(menuItemDescurtir);
+
+        menuItemDescurtir.addActionListener(e -> {
+            int index = listaMusicasCurtidas.getSelectedIndex();
+            if (index != -1) {
+                String nomeMusica = listaMusicasCurtidas.getSelectedValue();
+                try {
+                    MusicaCurtidaDAO dao = new MusicaCurtidaDAO();
+                    int idMusica = dao.buscarIdMusicaPorNome(nomeMusica);
+                    descurtirMusica(idUsuario, idMusica);
+                    carregarMusicasCurtidas(idUsuario); // Atualiza a lista após remoção
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao descurtir a música: " + ex.getMessage());
+                }
+            }
+        });
+    }
+    
+    private void adicionarMouseListenerPopup() {
+      listaMusicasCurtidas.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mousePressed(MouseEvent e) {
+              if (e.isPopupTrigger()) {
+                  mostrarPopup(e);
+              }
+          }
+          @Override
+          public void mouseReleased(MouseEvent e) {
+              if (e.isPopupTrigger()) {
+                  mostrarPopup(e);
+              }
+          }
+          private void mostrarPopup(MouseEvent e) {
+              int index = listaMusicasCurtidas.locationToIndex(e.getPoint());
+              if (index != -1) {
+                  listaMusicasCurtidas.setSelectedIndex(index);
+                  popupMenu.show(listaMusicasCurtidas, e.getX(), e.getY());
+              }
+          }
+      });
+    }
+
+    public void descurtirMusica(int idUsuario, int idMusica) throws SQLException {
+        String sql = "DELETE FROM musicas_curtidas WHERE id_usuario = ? AND id_musica = ?";
+        try (Connection conn = Conexao_bd.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ps.setInt(2, idMusica);
+            ps.executeUpdate();
+        }
+    }
         public void carregarMusicasCurtidas(int idUsuario) {
         try {
             MusicaCurtidaDAO dao = new MusicaCurtidaDAO();

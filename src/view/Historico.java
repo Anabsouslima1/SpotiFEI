@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 
 public class Historico extends javax.swing.JFrame {
 
-    public Historico(LinkedList<String> historico) {
+    public Historico(LinkedList<String> historico, LinkedList<String> curtidas, LinkedList<String> descurtidas) {
         initComponents();
         atualizarHistorico(historico);
+        atualizarCurtidas(curtidas);
+        atualizarDescurtidas(descurtidas);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -20,6 +22,22 @@ public class Historico extends javax.swing.JFrame {
         listaUltimasBuscadas.setModel(modelo);
     }
     
+    public void atualizarCurtidas(LinkedList<String> curtidas) {
+        DefaultListModel<String> modeloCurtidas = new DefaultListModel<>();
+        for (String item : curtidas) {
+            modeloCurtidas.addElement(item);
+        }
+        listaTodasCurtidas.setModel(modeloCurtidas);
+    }
+
+    public void atualizarDescurtidas(LinkedList<String> descurtidas) {
+        DefaultListModel<String> modeloDescurtidas = new DefaultListModel<>();
+        for (String item : descurtidas) {
+            modeloDescurtidas.addElement(item);
+        }
+        listaTodasDescurtidas.setModel(modeloDescurtidas);
+}
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,9 +46,9 @@ public class Historico extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listaUltimasBuscadas = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listaUltimasBuscadas1 = new javax.swing.JList<>();
+        listaTodasDescurtidas = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listaUltimasBuscadas2 = new javax.swing.JList<>();
+        listaTodasCurtidas = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -47,19 +65,19 @@ public class Historico extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listaUltimasBuscadas);
 
-        listaUltimasBuscadas1.setModel(new javax.swing.AbstractListModel<String>() {
+        listaTodasDescurtidas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(listaUltimasBuscadas1);
+        jScrollPane2.setViewportView(listaTodasDescurtidas);
 
-        listaUltimasBuscadas2.setModel(new javax.swing.AbstractListModel<String>() {
+        listaTodasCurtidas.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(listaUltimasBuscadas2);
+        jScrollPane3.setViewportView(listaTodasCurtidas);
 
         jLabel2.setText("Lista de Todas Curtidas");
 
@@ -121,8 +139,8 @@ public class Historico extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> listaTodasCurtidas;
+    private javax.swing.JList<String> listaTodasDescurtidas;
     private javax.swing.JList<String> listaUltimasBuscadas;
-    private javax.swing.JList<String> listaUltimasBuscadas1;
-    private javax.swing.JList<String> listaUltimasBuscadas2;
     // End of variables declaration//GEN-END:variables
 }

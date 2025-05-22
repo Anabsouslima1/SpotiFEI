@@ -14,6 +14,9 @@ public class Home extends JFrame {
     private FuncaoMusica funcaoMusica;
     JPopupMenu menuPlaylists = new JPopupMenu();
     private LinkedList<String> historicoBuscas = new LinkedList<>();
+    private LinkedList<String> todasCurtidas = new LinkedList<>();
+    private LinkedList<String> todasDescurtidas = new LinkedList<>();
+
   
     public Home(Usuario usuario, Playlist playlist){
         this.usuarioLogado = usuario;
@@ -133,7 +136,7 @@ public class Home extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                new Historico(historicoBuscas).setVisible(true);
+                new Historico(historicoBuscas, todasCurtidas, todasDescurtidas).setVisible(true);
             }
         });
                 
